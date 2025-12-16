@@ -1,10 +1,18 @@
 import express from 'express';
 import { ENV } from './config/env';
+import { connectDB } from './config/db';
+import { clerkMiddleware } from '@clerk/express'
+import { functions, inngest } from './config/inngest';
+import { serve } from 'inngest/express';
 
 const app = express();
 
+app.use(express.json())
+app.use(clerkMiddleware())
 // const __dirname = path.resolve();
-console.log("WHAT?")
+
+app.use('api/inngest', serve({ client: inngest, functions }))
+
 app.get("/api/health", (req, res) => {
     res.status(200).json({message: "API is working."})
 })
@@ -17,4 +25,11 @@ app.get("/api/health", (req, res) => {
 //     })
 // }
 
-app.listen(ENV.PORT, () => console.log("API Server is running on PORT:", ENV.PORT))
+const startServer = async() => {
+    await connectDB();
+    app.listen(ENV.PORT, () => {
+        console.log("API Server is running on PORT:", ENV.PORT)
+    })
+}
+
+startServer()
