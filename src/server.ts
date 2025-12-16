@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(clerkMiddleware())
 // const __dirname = path.resolve();
 
-app.use('api/inngest', serve({ client: inngest, functions }))
+app.use('/api/inngest', serve({ client: inngest, functions }))
 
 app.get("/api/health", (req, res) => {
     res.status(200).json({message: "API is working."})
