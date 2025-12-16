@@ -1,0 +1,4 @@
+reviews:
+  # Setting this to 'false' disables the default branch restriction,
+  # allowing auto-reviews on staging, dev, feature, etc.
+  require_default_branch: false
